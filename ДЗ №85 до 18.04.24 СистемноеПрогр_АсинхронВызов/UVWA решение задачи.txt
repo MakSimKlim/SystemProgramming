@@ -1,0 +1,69 @@
+/*
+Задание: с помощью асинхронного вызова методов прочитайте файл ы выведите в консоль сколько миллисекунд это заняло
+*/
+
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+namespace L9
+{
+    internal class AsyncCallbackReader
+    {
+        FileStream fs;
+        byte[] data;
+        IAsyncResult aRes;
+        AsyncBytesReadDel callbackMethod;
+        Stopwatch stopwatch; // класс для подсчета времени
+
+        public AsyncCallbackReader(FileStream fs, AsyncBytesReadDel cbM)
+        {
+            this.fs = fs;
+            this.callbackMethod = cbM;
+            data = new byte[100];
+            stopwatch = new Stopwatch();
+            stopwatch.Start();//Запускает или продолжает измерение времени на Stopwatch.
+            aRes = fs.BeginRead(data, 0, 100, ReadIsComplete, null);
+        }
+
+        public void ReadIsComplete(IAsyncResult res)
+        {
+            int countByte = fs.EndRead(res);
+            fs.Close();
+            Array.Resize(ref data, countByte);
+            stopwatch.Stop();//Останавливает измерение времени на Stopwatch.
+            long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;//возвращает время, затраченное с момента вызова stopwatch.Start(); до вызова stopwatch.Stop();, в миллисекундах. 
+            callbackMethod(data, elapsedMilliseconds);//Этот анонимный метод принимает данные и время, затраченное на чтение, и выводит их в консоль.
+        }
+    }
+
+    public delegate void AsyncBytesReadDel(byte[] streamData, long elapsedMilliseconds);
+
+    internal class Program
+    {
+        private static byte[] data = new byte[100];
+
+        static void Main(string[] args)
+        {
+            string[] files =
+            {
+                "C:/Users/Home/Desktop/Ipsum.txt"
+
+            };
+            for (int i = 0; i < files.Length; i++)
+            {
+                new AsyncCallbackReader(new FileStream(
+                    files[i], FileMode.Open, FileAccess.Read, FileShare.Read,
+                    1024, FileOptions.Asynchronous
+                    ), delegate (byte[] data, long elapsedMilliseconds)
+                    {
+                        Console.WriteLine($"Было прочитано {data.Length} байт за {elapsedMilliseconds} мс.");
+                        Console.WriteLine(Encoding.UTF8.GetString(data));
+                    });
+            }
+            Console.ReadKey();
+        }
+    }
+}
