@@ -1,0 +1,92 @@
+﻿<Window x:Class="ДЗ__86_до_20._04._24_СистемноеПрогр_ТаймерыМониторы.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ДЗ__86_до_20._04._24_СистемноеПрогр_ТаймерыМониторы"
+        mc:Ignorable="d"
+        Title="Безымянный - Блокнот" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Главное Меню -->
+        <Menu>
+            <!-- Элемент меню Файл -->
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Создать" />
+                <MenuItem Header="_Новое окно"/>
+                <MenuItem Header="_Открыть..." />
+                <MenuItem Header="_Сохранить" />
+                <MenuItem Header="_Сохранить как..."/>
+                <Separator/>
+                <MenuItem Header="_Параметры страницы..."/>
+                <MenuItem Header="_Печать..." />
+                <Separator/>
+                <MenuItem Header="_Выход" Click="Exit_Click"/>
+            </MenuItem>
+
+            <!-- Элемент меню Правка -->
+            <MenuItem Header="_Правка">
+                <MenuItem Header="_Отменить" CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Undo"/>
+                <Separator/>
+                <MenuItem Header="_Вырезать"  CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="_Копировать"  CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="_Вставить"  CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Paste"/>
+                <MenuItem Header="_Удалить"  CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Delete"/>
+                <Separator/>
+                <MenuItem Header="_Поиск с помощью Bing"/>
+                <MenuItem Header="_Найти..." CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.Find"/>
+                <MenuItem Header="_Найти далее"/>
+                <MenuItem Header="_Найти ранее"/>
+                <MenuItem Header="_Заменить..." />
+                <MenuItem Header="_Перейти..."/>
+                <Separator/>
+                <MenuItem Header="_Выделить всё"  CommandTarget="{Binding ElementName=textBox}" Command="ApplicationCommands.SelectAll"/>
+                <MenuItem Header="_Время и дата" Click="AddDateTime_Click"/>
+                <MenuItem Header="_Поиск слова" Click="SearchWord_Click"/>
+            </MenuItem>
+
+            <!-- Элемент меню Формат -->
+            <MenuItem Header="_Формат">
+                <MenuItem Header="_Перенос по словам"/>
+                <MenuItem Header="_Шрифт"/>
+            </MenuItem>
+
+            <!-- Элемент меню Вид -->
+            <MenuItem Header="_Вид">
+                <MenuItem Header="_Масштаб">
+                    <MenuItem Header="_Увеличить"/>
+                    <MenuItem Header="_Уменьшить"/>
+                    <MenuItem Header="_Восстановить масштаб по умолчанию"/>
+                </MenuItem>
+                <MenuItem Header="_Строка состояния"/>
+            </MenuItem>
+
+            <!-- Элемент меню Справка -->
+            <MenuItem Header="_Справка">
+                <MenuItem Header="_Посмотреть справку"/>
+                <MenuItem Header="_Отправить отзыв"/>
+                <Separator/>
+                <MenuItem Header="_О программе"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Текстовое пространство -->
+        <TextBox x:Name="textBox" Grid.Row="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+
+        <!-- Поле статуса -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Text="Стр 1, стлб 1" Margin="5"/>
+            <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Margin="5"/>
+            <TextBlock Text="100%" Margin="5"/>
+            <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Margin="5"/>
+            <TextBlock Text="Windows (CRLF)" Margin="5"/>
+            <Border BorderBrush="Gray" BorderThickness="0,0,1,0" Margin="5"/>
+            <TextBlock Text="UTF-8" Margin="0, 5, 50, 0"/>
+        </StackPanel>
+    </Grid>
+</Window>
